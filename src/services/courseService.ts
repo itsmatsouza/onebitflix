@@ -1,3 +1,4 @@
+import { Op } from "sequelize"
 import { Course } from "../models"
 
 export const courseService = {
@@ -53,5 +54,32 @@ export const courseService = {
     })
 
     return courses
+  },
+
+  findByName: async (name: string, page: number, perPage: number) => {
+    const offset = (page - 1) * perPage
+    const { count, rows } = await Course.findAndCountAll({
+      attributes: [
+        'id',
+        'name',
+        'synopsis',
+        ['thumbnail_url', 'thumbnailUrl']
+      ],
+      where: {
+        name: {
+          // Op.iLike ( so funciona no postgres ) tras resultados de pesquisa que contenham o termo, sem diferenciar letras minusculas e maiusculas
+          [Op.iLike]: `%${name}%`
+        }
+      },
+      limit: perPage,
+      offset: offset
+    })
+
+    return {
+      courses: rows,
+      page: page,
+      perPage: perPage,
+      total: count
+    }
   }
 }
