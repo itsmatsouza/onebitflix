@@ -6,7 +6,7 @@ import { User } from "./User"
 Category.hasMany(Course, { as: 'courses' })
 Course.belongsTo(Category)
 
-Course.hasMany(Episode) // Episodes, forma padrao 
+Course.hasMany(Episode, { as: 'episodes'}) // Episodes, forma padrao do sequelize
 Episode.belongsTo(Course)
 
 export {

@@ -7,6 +7,8 @@ const router = express.Router()
 router.get('/categories', categoriesController.index)
 router.get('/categories/:id', categoriesController.show)
 
+// O express testa as rotas em ordem, todas as rotas com variavel dinamicas (ex: :id), devem ficar abaixo das demais
+router.get('/courses/featured', coursesController.featured)
 router.get('/courses/:id', coursesController.show)
 
 export { router }
