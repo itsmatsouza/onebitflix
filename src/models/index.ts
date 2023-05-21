@@ -4,6 +4,7 @@ import { Episode } from "./Episode"
 import { User } from "./User"
 import { Favorite } from "./Favorite"
 import { Like } from "./Like"
+import { WatchTime } from "./WatchTime"
 
 // Categoria tem muitos cursos e um curso pertence a uma categoria
 Category.hasMany(Course, { as: 'courses' })
@@ -28,11 +29,18 @@ User.hasMany(Favorite, { as: 'FavoritesCourses', foreignKey: 'user_id'})
 Course.belongsToMany(User, { through: Like })
 User.belongsToMany(Course, { through: Like })
 
+
+// Cada usuario pode ter muitos episodios assistidos em determinado segundo, o qual, sera adicionado na tabela watchtime
+// Cada episodio pode ter muitos usuarios que os viram e pararam em determinado segundo, o qual, sera adicionado na tabela watchtime
+Episode.belongsToMany(User, { through: WatchTime})
+User.belongsToMany(Episode, { through: WatchTime})
+
 export {
   Category,
   Course,
   Episode,
   Favorite,
   Like,
-  User
+  User,
+  WatchTime
 }
